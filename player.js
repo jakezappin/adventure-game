@@ -4,14 +4,43 @@ var inquirer = require('inquirer');
 
 var game = require('./game.source');
 
-/**
 
-This file has no test specs. It might be a tricky one. You need to look at
-the docs for the inquirer npm package, and see if you can figure out how
-to make the game run!
+function ifYouDare(node){
+	if(node.connections.length === 0){
+		console.log(node.title);
+		console.log(node.text);
+		return
+	}
 
-If you're running out of time, check out our solution to the problem:
+	inquirer.prompt([
+  	{
+   		type: 'list',
+    	name: 'choice',
+    	message: node.text,
+    	choices: node.connections,
 
-https://gist.github.com/queerviolet/7d9fb275b292b062fa5b9b4c99eda77d
+  	}
+	]).then(function (answer) {
+  		ifYouDare(answer.choice);
+});
+}
 
-**/
+ifYouDare(game.startingPoint)
+
+// function play(node) {
+
+//   	if (!node.connections.length) {
+//    	 	console.log(node.text);
+//    	 	return Promise.resolve({node});
+//   	} else {  
+//   		return inquirer.prompt({
+//     	name: 'node',
+//     	message: node.text,
+//     	type: 'list',
+//     	choices: node.connections,
+//   	}).then(answer => play(answer.node));  
+// }
+
+// play(game.startingPoint).then(last => console.log('Game over.'));
+
+// }
